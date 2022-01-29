@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Contains Base Date-Picker input class for widgets of this package."""
-
+from datetime import datetime
 from json import dumps as json_dumps
 
 from django.forms.widgets import DateTimeBaseInput
@@ -114,6 +114,7 @@ class BasePickerInput(DateTimeBaseInput):
         """Return widget context dictionary."""
         # pylint: disable=no-member
         context = super().get_context(name, value, attrs)
+        self.config['defaultDate'] = value.strftime('%m/%d/%Y %H:%M') if isinstance(value, datetime) else value
         context["widget"]["attrs"]["data-dp-config"] = json_dumps(self.config)
         return context
 
